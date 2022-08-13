@@ -30,43 +30,32 @@ function reader($file)
             fgets($file);
             break;
         }
-
         tagParser($str, $tag, $params, $value);
-        yield ['key' => $tag,
-            'value' => $value,
-            'params' => $params
-        ];
+        yield $tag => isset($params) ? ['value' => $value, 'params' => $params] : $value;
     }
 }
 
 function parser($url)
 {
-    $str = [];
     $file = fopen($url, 'r');
     while (!feof($file)) {
         if (fgets($file) == ('<item>' . PHP_EOL)) {
-            foreach (reader($file) as $item) {
-                $str[$item['key']] = isset($item['params']) ? [$item['value'], $item['params']] : $item['value'];
+            $buf = [];
+            foreach (reader($file) as $key => $value) {
+                $buf[$key] = $value;
             }
-            yield $str;
-            unset($str);
+            yield $buf;
+            unset($buf);
         }
     }
     fclose($file);
-
 }
 
 $source = [];
 
 $data = parser($url);
 foreach ($data as $item) {
-    $obj = new class {
-    };
-    foreach ($item as $key => $value) {
-        $obj->$key = $value;
-    }
-    $source[] = $obj;
-    unset($obj);
+    $source[] = $item;
 }
 
 echo '<pre>';
