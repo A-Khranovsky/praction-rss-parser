@@ -44,7 +44,7 @@ function parser($url)
             foreach (reader($file) as $key => $value) {
                 $buf[$key] = $value;
             }
-            yield $buf;
+            yield new ArrayObject($buf);
             unset($buf);
         }
     }
@@ -61,3 +61,5 @@ foreach ($data as $item) {
 echo '<pre>';
 var_dump($source);
 echo '</pre>';
+
+echo $source[0]['title'];
