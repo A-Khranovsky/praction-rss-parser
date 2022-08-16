@@ -1,10 +1,12 @@
 <?php
 
+
 namespace App;
 
-class Parser
+
+class ParserWithoutGenerators
 {
-    private $url;
+    private $url, $buf, $result;
 
     public function __construct($url)
     {
@@ -13,30 +15,29 @@ class Parser
 
     public function parse()
     {
+        $flag = null;
+        $counter = 0;
         $file = fopen($this->url, 'r');
         while (!feof($file)) {
-            if (fgets($file) == ('<item>' . PHP_EOL)) {
-                $buf = [];
-                foreach ($this->itemHandler($file) as $key => $value) {
-                    $buf[$key] = $value;
-                }
-                yield new \ArrayObject($buf);
-                unset($buf);
+            $str = fgets($file);
+            if ($str == '<item>' . PHP_EOL){
+                $flag = true;
+                continue;
+            }
+            if ($str == '</item>' . PHP_EOL){
+                $flag = false;
+                $this->result[] = new \ArrayObject($this->buf[$counter]);
+                unset($this->buf[$counter]);
+                $counter++;
+            }
+            if ($flag) {
+                $this->tagParser($str, $tag, $params, $value);
+                $this->buf[$counter][$tag] = isset($params) ? ['value' => $value, 'params' => $params] : $value;
             }
         }
         fclose($file);
-    }
 
-    private function itemHandler($file)
-    {
-        while (true) {
-            $str = fgets($file);
-            if (mb_strstr($str, '</item>')) {
-                break;
-            }
-            $this->tagParser($str, $tag, $params, $value);
-            yield $tag => isset($params) ? ['value' => $value, 'params' => $params] : $value;
-        }
+        return $this->result;
     }
 
     private function tagParser($source, &$tag, &$params, &$value)
