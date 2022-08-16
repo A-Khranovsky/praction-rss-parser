@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App;
-
 
 class ParserWithoutGenerators
 {
@@ -20,11 +18,11 @@ class ParserWithoutGenerators
         $file = fopen($this->url, 'r');
         while (!feof($file)) {
             $str = fgets($file);
-            if (strpos($str, '<item>') !== false){
+            if (strpos($str, '<item>') !== false) {
                 $flag = true;
                 continue;
             }
-            if (strpos($str, '</item>') !== false){
+            if (strpos($str, '</item>') !== false) {
                 $flag = false;
                 $this->result[] = new \ArrayObject($this->buf[$counter]);
                 unset($this->buf[$counter]);
@@ -42,8 +40,11 @@ class ParserWithoutGenerators
 
     private function tagParser($source, &$tag, &$params, &$value)
     {
-        $tagBuf = substr($source, strpos($source, '<') + 1,
-            (strpos($source, '>') - strpos($source, '<') - 1));
+        $tagBuf = substr(
+            $source,
+            strpos($source, '<') + 1,
+            (strpos($source, '>') - strpos($source, '<') - 1)
+        );
         $buf = explode(' ', $tagBuf);
         if (count($buf) === 1) {
             $tag = current($buf);
@@ -53,7 +54,10 @@ class ParserWithoutGenerators
         }
         $strTagLen = strlen($tag);
         $startPos = strpos($source, $tag . '>') + $strTagLen + 1;
-        $value = substr($source,
-            $startPos, (strpos($source, '</' . $tag) - $startPos));
+        $value = substr(
+            $source,
+            $startPos,
+            (strpos($source, '</' . $tag) - $startPos)
+        );
     }
 }

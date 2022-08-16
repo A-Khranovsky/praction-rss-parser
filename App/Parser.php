@@ -41,8 +41,11 @@ class Parser
 
     private function tagParser($source, &$tag, &$params, &$value)
     {
-        $tagBuf = substr($source, strpos($source, '<') + 1,
-            (strpos($source, '>') - strpos($source, '<') - 1));
+        $tagBuf = substr(
+            $source,
+            strpos($source, '<') + 1,
+            (strpos($source, '>') - strpos($source, '<') - 1)
+        );
         $buf = explode(' ', $tagBuf);
         if (count($buf) === 1) {
             $tag = current($buf);
@@ -52,7 +55,10 @@ class Parser
         }
         $strTagLen = strlen($tag);
         $startPos = strpos($source, $tag . '>') + $strTagLen + 1;
-        $value = substr($source,
-            $startPos, (strpos($source, '</' . $tag) - $startPos));
+        $value = substr(
+            $source,
+            $startPos,
+            (strpos($source, '</' . $tag) - $startPos)
+        );
     }
 }

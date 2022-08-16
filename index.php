@@ -6,7 +6,6 @@ use App\Parser;
 use App\ParserWithoutGenerators;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
     $source = [];
     echo '<br /><a href="/">Home</a>';
 
