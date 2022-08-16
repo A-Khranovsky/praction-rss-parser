@@ -1,11 +1,20 @@
 ## Vocation
-Praction with php's generators 
+Praction with php's generators and generators as methods of class.
 
 ## Description
-
+Project asks the RSS url, choice of method of parsing. There are two methods:
+* With generators
+* Without generators 
+  
+Project outputs the result of parsing, it is an array of ArrayObject's objects of each items of RSS xml data.
+Handling starts from reading strings of the remote xml-file. If found <item>, starts read strings while will not
+be found </item>. In case of method with generators first of all works parse generator, and then itemHandler generator.
+In case of method without generators when found <item> strings are written to buffer array. In this case script eats
+more memory as compared with another method. Project outputs the number of bytes was used.
 
 ## How to run
 * Clone the project.
+* Run:
 ```angular2html
 docker-compose up -d
 ```
