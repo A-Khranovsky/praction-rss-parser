@@ -6,6 +6,7 @@ use App\Parser;
 use App\ParserWithoutGenerators;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
     $source = [];
     echo '<br /><a href="/">Home</a>';
 
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     echo '<pre>';
-    echo print_r($source, true);
+    var_dump($source);
     echo '</pre>';
 
     echo 'Memory size was used for this script: ' . memory_get_usage() . ' Bytes';
@@ -38,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 <form method='post'>
-    Enter the RSS URL:<br />
-    <input type="text" name="url" value="https://www.liga.net/tech/all/rss.xml" size="70" />
-    <br />
-    <br />Choose the method: <br/>
+    Enter the RSS URL:<br/>
+    <input type="text" name="url" value="https://www.usingenglish.com/feeds/whats_new_feed.xml" size="70"/>
+    <br/>
+    <br/>Choose the method: <br/>
     <select name="select">
         <option value="with">With generators</option>
         <option value="without">Without generators</option>
