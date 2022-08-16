@@ -20,11 +20,11 @@ class ParserWithoutGenerators
         $file = fopen($this->url, 'r');
         while (!feof($file)) {
             $str = fgets($file);
-            if (mb_strpos($str, '<item>') != null){
+            if (strpos($str, '<item>') !== false){
                 $flag = true;
                 continue;
             }
-            if (mb_strpos($str, '</item>') != null){
+            if (strpos($str, '</item>') !== false){
                 $flag = false;
                 $this->result[] = new \ArrayObject($this->buf[$counter]);
                 unset($this->buf[$counter]);

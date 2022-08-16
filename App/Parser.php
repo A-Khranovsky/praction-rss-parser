@@ -15,7 +15,7 @@ class Parser
     {
         $file = fopen($this->url, 'r');
         while (!feof($file)) {
-            if (mb_strpos(fgets($file), '<item>') != null) {
+            if (strpos(fgets($file), '<item>') !== false) {
                 $buf = [];
                 foreach ($this->itemHandler($file) as $key => $value) {
                     $buf[$key] = $value;
@@ -31,7 +31,7 @@ class Parser
     {
         while (true) {
             $str = fgets($file);
-            if (mb_strpos($str, '</item>') != null) {
+            if (strpos($str, '</item>') !== false) {
                 break;
             }
             $this->tagParser($str, $tag, $params, $value);
