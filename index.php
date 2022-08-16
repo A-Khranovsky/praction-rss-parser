@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     echo '<pre>';
-    var_dump($source);
+    echo print_r($source, true);
     echo '</pre>';
 
     echo 'Memory size was used for this script: ' . memory_get_usage() . ' Bytes';
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 <form method='post'>
     Enter the RSS URL:<br/>
-    <input type="text" name="url" value="https://www.usingenglish.com/feeds/whats_new_feed.xml" size="70"/>
+    <input type="text" name="url" value="https://rss.dw.com/xml/rss_en_science" size="70"/>
     <br/>
     <br/>Choose the method: <br/>
     <select name="select">
